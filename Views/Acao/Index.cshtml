@@ -1,0 +1,109 @@
+﻿@model ConsultaAcoes.Models.AcaoViewModel
+
+@{
+    ViewData["Title"] = "Ações";
+}
+
+<style>
+    nav ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    nav a {
+        color: black;
+        text-decoration: none;
+    }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+</style>
+
+<h1>Consulta de Ações</h1>
+
+<form method="get">
+    <input type="text" name="search" value="@Model.Search" placeholder="Digite o símbolo ou nome da ação" />
+    <button type="submit">Consultar</button>
+</form>
+
+<br />
+
+@if (Model.Acoes != null && Model.Acoes.Any())
+{
+    <h2>Ações em destaque:</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Stock</th>
+                <th>Nome</th>
+                <th>Cotação</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var acao in Model.Acoes)
+            {
+                <tr>
+                    <td>@acao.Stock</td>
+                    <td><a href="@Url.Action("Details", "Acao", new { stock = acao.Stock })">@acao.Name</a></td>
+                    <td>@acao.Close</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (!string.IsNullOrEmpty(Model.Search))
+{
+    <p>Símbolo ou nome não encontrado. Tente novamente.</p>
+}
+else
+{
+    <p>Nenhuma ação encontrada. Tente novamente.</p>
+}
+
+<br />
+
+<h2>Top 10 Mais Valorizadas</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Stock</th>
+            <th>Nome</th>
+            <th>Valorizou em (%)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var acao in Model.TopValorizadas)
+        {
+            <tr>
+                <td>@acao.Stock</td>
+                <td>@acao.Name</td>
+                <td>@acao.Change</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<br />
+
+<h2>Top 10 Mais Desvalorizadas</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Stock</th>
+            <th>Nome</th>
+            <th>Desvalorizou em (%)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var acao in Model.TopDesvalorizadas)
+        {
+            <tr>
+                <td>@acao.Stock</td>
+                <td>@acao.Name</td>
+                <td>@acao.Change</td>
+            </tr>
+        }
+    </tbody>
+</table>

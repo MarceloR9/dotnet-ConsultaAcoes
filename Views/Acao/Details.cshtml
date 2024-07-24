@@ -1,0 +1,18 @@
+﻿@model ConsultaAcoes.Models.Acao
+
+@{
+    ViewData["Title"] = "Detalhes da Ação";
+}
+
+<h1>Detalhes da Ação</h1>
+
+@if (Model != null)
+{
+    <h2>@Model.Name (@Model.Stock)</h2>
+    <p>Preço: @Model.Close</p>
+    <p>Variação: @Model.Change</p>
+}
+else
+{
+    <p>Ação não encontrada.</p>
+}
